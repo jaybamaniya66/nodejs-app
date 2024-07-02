@@ -18,22 +18,20 @@ pipeline{
                 def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
 
                 // Define the new tag based on the commit hash (replace 'v' with your desired prefix)
-                env.newTag = "v${commitHash}"
+                def newTag = "v${commitHash}"
 
                 // Print the new tag for reference
-                echo "Generated new tag: ${env.newTag}"
+                echo "Generated new tag: ${newTag}"
                 }
 
             }
         }
         stage('Build Docker Image') {
             steps {
-                script{
                     withDockerRegistry(credentialsId: 'docker-token', toolName: 'docker'){   
                        sh "docker build -t node-app ."
-                       sh "docker tag node-app jaybamaniya/node-app:${env.newTag} "
-                       sh "docker push jaybamaniya/node-app:${env.newTag} "
-                    }
+                       sh "docker tag node-app jaybamaniya/node-app:${newTag} "
+                       sh "docker push jaybamaniya/node-app:${newTag} "
                 }
             }
         }
