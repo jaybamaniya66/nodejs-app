@@ -1,13 +1,15 @@
+def getnewTag(){
+    def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+    return "v${commitHash}"
+}
+
 pipeline{
     agent any 
     environment{
         tag = "latest"
         newTag = ""
     }
-    def getnewTag(){
-        def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
-        return "v${commitHash}"
-    }
+
 
     stages{
         stage('Checkout the git code'){
