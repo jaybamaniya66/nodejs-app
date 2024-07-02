@@ -1,5 +1,8 @@
 pipeline{
     agent any 
+    environment{
+        tag = "latest"
+    }
 
     stages{
         stage('Checkout the git code'){
@@ -9,6 +12,7 @@ pipeline{
         }
         stage('Generate Tag') {
             steps {
+                script{
                 // Get the latest commit hash
                 def commitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
 
@@ -17,6 +21,8 @@ pipeline{
 
                 // Print the new tag for reference
                 echo "Generated new tag: ${newTag}"
+                }
+
             }
         }
         stage('Build Docker Image') {
