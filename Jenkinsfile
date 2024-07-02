@@ -19,9 +19,10 @@ pipeline{
         }
         stage('Build Docker Image') {
             steps {
-                def newTag = getnewTag()
+                
                 script{
                     withDockerRegistry(credentialsId: 'docker-token', toolName: 'docker'){   
+                       def newTag = getnewTag()
                        sh "docker build -t node-app ."
                        sh "docker tag node-app jaybamaniya/node-app:${newTag} "
                        sh "docker push jaybamaniya/node-app:${newTag} "
