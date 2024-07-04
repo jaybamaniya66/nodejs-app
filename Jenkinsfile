@@ -7,10 +7,7 @@ pipeline{
     agent any 
     environment{
         tag = "latest"
-        newTag = ""
     }
-
-
     stages{
         stage('Checkout the git code'){
             steps{
@@ -18,8 +15,7 @@ pipeline{
             }
         }
         stage('Build Docker Image') {
-            steps {
-                
+            steps { 
                 script{
                     withDockerRegistry(credentialsId: 'docker-token', toolName: 'docker'){   
                        def newTag = getnewTag()
@@ -30,5 +26,17 @@ pipeline{
             }
             }
         }
+        stage('kubernetes deployment'){        
+            steps{
+                script{
+                    withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                       def k8Tag = getnewTag()
+                       sh "sed -i 's/jaybamaniya/node-app:[^:]*/jaybamaniya/node-app:${k8Tag}/' deployment.yml"
+                       sh 'kubectl apply -f deployment.yml'
+                       sh 'kubectl apply -f service.yml'
+                       sh 'kubectl apply -f ingress.yml'
+                  }
+            }
+          }
         }
     }
