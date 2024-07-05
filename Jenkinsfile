@@ -33,9 +33,9 @@ pipeline{
                     //    def k8Tag = getnewTag()
                     //    sh "sed -i 's/(jaybamaniya/node-app):[^:]*/(jaybamaniya/node-app):${k8Tag}/' deployment.yml"
                     //    sh "mv $tempfile deployment.yml"
-                       sh 'kubectl apply -f deployment.yml'
-                       sh 'kubectl apply -f service.yml'
-                       sh 'kubectl apply -f ingress.yml'
+                       sh 'kubectl apply -f k8s/deployment.yml'
+                       sh 'kubectl apply -f k8s/service.yml'
+                       sh 'kubectl apply -f k8s/ingress.yml'
                   }
             }
           }
