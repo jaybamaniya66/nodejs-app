@@ -30,10 +30,9 @@ pipeline{
             steps{
                 script{
                     withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
-                       def k8Tag = getnewTag()
-                       def tempfile=$(mktemp)
-                       sh "sed -i 's/(jaybamaniya/node-app):[^:]*/(jaybamaniya/node-app):${k8Tag}/' deployment.yml > $tempfile"
-                       sh "mv $tempfile deployment.yml"
+                    //    def k8Tag = getnewTag()
+                    //    sh "sed -i 's/(jaybamaniya/node-app):[^:]*/(jaybamaniya/node-app):${k8Tag}/' deployment.yml"
+                    //    sh "mv $tempfile deployment.yml"
                        sh 'kubectl apply -f deployment.yml'
                        sh 'kubectl apply -f service.yml'
                        sh 'kubectl apply -f ingress.yml'
