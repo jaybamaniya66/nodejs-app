@@ -11,9 +11,8 @@ pipeline {
                 withCredentials([string(credentialsId: 'aws-credentials', variable: 'AWS_ACCESS_KEY_ID'),
                                   string(credentialsId: 'aws-credentials', variable: 'AWS_SECRET_ACCESS_KEY')])
                                   {
-                                    def image_name = "my-node-app"
                                     sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 361924549766.dkr.ecr.us-east-1.amazonaws.com"
-                                    sh "echo ${image_name}"
+                                    sh "echo successfull"
                                   }
             }
         }
