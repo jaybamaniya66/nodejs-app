@@ -8,8 +8,8 @@ pipeline {
         }
         stage('Build image') {
             steps {
-                withCredentials([string(credentialsId: 'aws-credentials', variable: 'AWS_ACCESS_KEY_ID'),
-                                  string(credentialsId: 'aws-credentials', variable: 'AWS_SECRET_ACCESS_KEY')])
+                withCredentials([string(credentialsId: 'aws-cred', variable: 'AWS_ACCESS_KEY_ID'),
+                                  string(credentialsId: 'aws-cred', variable: 'AWS_SECRET_ACCESS_KEY')])
                                   {
                                     sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 361924549766.dkr.ecr.us-east-1.amazonaws.com"
                                     sh "echo successful"
